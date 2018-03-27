@@ -3,9 +3,9 @@ var path = require('path');
 var mongoose = require('mongoose');
 var config = require('./config/database');
 var bodyParser = require('body-parser');
-//var session = require('express-session');
-//var expressValidator = require('express-validator');
-//var expressMessages = require('express-messages');
+var session = require('express-session');
+var expressValidator = require('express-validator');
+var expressMessages = require('express-messages');
 
 
 
@@ -44,11 +44,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Express-messages middleware
-//app.use(require('connect-flash')());
-//app.use(function (req, res, next) {
-//  res.locals.messages = require('express-messages')(req, res);
-//  next();
-//});
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
 
 
 
@@ -67,39 +67,37 @@ app.use(bodyParser.json())
 
 
 //Express-validator middleware
-// Express Validator middleware
-//app.use(expressValidator({
-//    errorFormatter: function (param, msg, value) {
-//        var namespace = param.split('.')
-//                , root = namespace.shift()
-//                , formParam = root;
-//
-//        while (namespace.length) {
-//            formParam += '[' + namespace.shift() + ']';
-//        }
-//        return {
-//            param: formParam,
-//            msg: msg,
-//            value: value
-//        };
-//    },
-//    
-//}));
-//
-//
-//
-//
-//
-//
-////Express-session middleware
-//var app = express()
-//app.set('trust proxy', 1) // trust first proxy
-//app.use(session({
-//  secret: 'keyboard cat',
-//  resave: false,
-//  saveUninitialized: true,
-//  cookie: { secure: true }
-//}));
+app.use(expressValidator({
+    errorFormatter: function (param, msg, value) {
+        var namespace = param.split('.')
+                , root = namespace.shift()
+                , formParam = root;
+
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param: formParam,
+            msg: msg,
+            value: value
+        };
+    },
+    
+}));
+
+
+
+
+
+
+//Express-session middleware
+app.set('trust proxy', 1); // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 
 
