@@ -1,0 +1,11 @@
+{
+  "name": "cmscart",
+  "version": "1.0.0",
+  "description": "a basic node cms",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Karl Layton",
+  "license": "ISC"
+}
